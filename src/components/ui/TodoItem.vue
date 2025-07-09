@@ -1,7 +1,12 @@
 <template>
   <li class="list-row">
     <div class="flex items-center">
-      <input v-model="checked" type="checkbox" class="checkbox checkbox-primary" disabled="true"/>
+      <input 
+        v-model="checked" 
+        type="checkbox" 
+        class="checkbox checkbox-primary" 
+        disabled="true"
+      />
     </div>
     <div v-if="enableEdit" class="flex items-center">
       <input v-model="todo.content" type="text" placeholder="Type here" class="input input-primary mr-2" />
@@ -16,7 +21,11 @@
     <button v-if="!(todo.completed_at)" class="btn btn-soft btn-info" @click="editTodo(todo.id)">
       {{ enableEdit ? 'Finish Edit' : 'Edit'}}
     </button>
-    <button v-if="!enableEdit" class="btn btn-soft btn-accent" @click="toggleTodo(todo.id)">
+    <button 
+      v-if="!enableEdit" 
+      class="btn btn-soft btn-accent" 
+      @click="toggleTodo(todo.id)"
+    >
       {{ todo.completed_at ? 'Cancel Finish' : 'Finish' }}
     </button>
     <button class="btn btn-soft btn-error" @click=deleteTodo(todo.id)>
@@ -28,7 +37,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useTodoStore } from '@/stores/TodoStore.js'
-import { watch } from 'vue';
 
 const store = useTodoStore();
 const enableEdit = ref(false);

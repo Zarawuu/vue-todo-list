@@ -8,6 +8,31 @@ axios.defaults.headers.common["Authorization"] = getToken();
 export const useTodoStore = defineStore('todos', () => {
   const todos = ref([]);
 
+  const addTodo = async(todoInput) => {
+    const content = todoInput
+    if ( content !== '' ) {
+      const formData = {
+        todo: {
+          content: content
+        }
+      }
+      try {
+        const uuid = crypto.randomUUID()
+        todos.value.unshift({
+          id: uuid,
+          content: content,
+          completed_at: null
+        })
+        const { data } = await axios.post('https://todoo.5xcamp.us/todos', formData);
+        const respTodo = todos.value.find((t) => t.id === uuid)
+        respTodo.id = data.id
+        console.log( todos.value )
+      } catch ( err ) {
+        console.log(err)
+      }
+    }
+  }
+
   const deleteTodo = async(todoId) => {
     try {
       const req = await axios.delete(`https://todoo.5xcamp.us/todos/${todoId}`);
@@ -51,6 +76,7 @@ export const useTodoStore = defineStore('todos', () => {
 
   return { 
     todos, 
+    addTodo,
     toggleTodo, 
     deleteTodo, 
     editTodo 

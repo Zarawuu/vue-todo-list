@@ -2,22 +2,28 @@
   <section class="container mx-auto">
     <form class="flex flex-col gap-4">
       <div class="flex flex-col">
-        <label class="label">Email</label>
+        <label class="label mb-1">Email</label>
         <input v-model.trim="email" type="email" class="input" />
       </div>
 
       <div class="flex flex-col">
-        <label class="label">密碼</label>
+        <label class="label mb-1">Password</label>
         <input v-model.trim="password" type="password" class="input" @keydown.enter="login"/>
       </div>
 
       <div>
-        <button @click.prevent="login" :disabled="!canLogin" class="btn">
-          登入
+        <button 
+          @click.prevent="login" 
+          :disabled="!canLogin" 
+          class="btn btn-soft btn-secondary"
+        >
+          Login
         </button>
       </div>
-      <span>還沒有帳號嗎？
-        <a class="hover:text-blue-300" @click.prevent="$emit('go_register')" href="#">註冊</a>一個吧
+      <span>Don't have an account？
+        <a class="hover:text-sky-700 btn-link" @click.prevent="$emit('go_register')" href="#">
+          Go register!
+        </a>
       </span>
     </form>
   </section>

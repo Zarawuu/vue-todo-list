@@ -1,11 +1,13 @@
 <template>
-  <Todo v-if="show == 'todo'" />
-  <LoginForm
-    v-if="show == 'login'"
-    @go_register="show = 'register'"
-    @login_success="show = 'todo'"
-  />
-  <RegisterForm v-if="show == 'register'" @go_login="show = 'login'" />
+  <div class="p-4">
+    <Todo v-if="show == 'todo'" />
+    <LoginForm
+      v-if="show == 'login'"
+      @go_register="show = 'register'"
+      @login_success="show = 'todo'"
+    />
+    <RegisterForm v-if="show == 'register'" @go_login="show = 'login'" />
+  </div>
 </template>
 
 <script setup>

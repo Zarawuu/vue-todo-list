@@ -1,3 +1,29 @@
+<template>
+  <section class="container mx-auto">
+    <form class="flex flex-col gap-4">
+      <div class="flex flex-col">
+        <label class="label">Email</label>
+        <input v-model="email" type="email" class="input" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="label">暱稱</label>
+        <input v-model="nickname" type="text" class="input" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="label">密碼</label>
+        <input v-model="password" type="password" class="input" />
+      </div>
+
+      <div>
+        <button @click.prevent="register" class="btn">註冊</button>
+      </div>
+      <span> 已經有帳號了？<a @click.prevent="goLogin" href="#">登入</a> </span>
+    </form>
+  </section>
+</template>
+
 <script setup>
 import { ref } from "vue"
 import axios from "axios"
@@ -44,29 +70,3 @@ const goLogin = () => {
   emits("go_login")
 }
 </script>
-
-<template>
-  <section class="container mx-auto">
-    <form class="flex flex-col gap-4">
-      <div class="flex flex-col">
-        <label class="label">Email</label>
-        <input v-model="email" type="email" class="input" />
-      </div>
-
-      <div class="flex flex-col">
-        <label class="label">暱稱</label>
-        <input v-model="nickname" type="text" class="input" />
-      </div>
-
-      <div class="flex flex-col">
-        <label class="label">密碼</label>
-        <input v-model="password" type="password" class="input" />
-      </div>
-
-      <div>
-        <button @click.prevent="register" class="btn">註冊</button>
-      </div>
-      <span> 已經有帳號了？<a @click.prevent="goLogin" href="#">登入</a> </span>
-    </form>
-  </section>
-</template>

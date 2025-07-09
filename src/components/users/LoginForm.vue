@@ -1,7 +1,33 @@
+<template>
+  <section class="container mx-auto">
+    <form class="flex flex-col gap-4">
+      <div class="flex flex-col">
+        <label class="label">Email</label>
+        <input v-model.trim="email" type="email" class="input" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="label">密碼</label>
+        <input v-model.trim="password" type="password" class="input" @keydown.enter="login"/>
+      </div>
+
+      <div>
+        <button @click.prevent="login" :disabled="!canLogin" class="btn">
+          登入
+        </button>
+      </div>
+      <span
+        >還沒有帳號嗎？<a @click.prevent="$emit('go_register')" href="#">註冊</a
+        >一個吧</span
+      >
+    </form>
+  </section>
+</template>
+
 <script setup>
 import { ref, computed } from "vue"
 import axios from "axios"
-import { STORAGE_KEY } from "@/constants"
+import { setToken } from '@/utils/token.js'
 
 const emits = defineEmits(["go_register", "login_success"])
 
@@ -25,7 +51,7 @@ const login = async () => {
       formData
     )
     const token = resp.headers.authorization
-    localStorage.setItem(STORAGE_KEY, token)
+    setToken(token);
     clearAll()
     emits("login_success")
   } catch (err) {
@@ -39,29 +65,3 @@ const clearAll = () => {
   password.value = ""
 }
 </script>
-
-<template>
-  <section class="container mx-auto">
-    <form class="flex flex-col gap-4">
-      <div class="flex flex-col">
-        <label class="label">Email</label>
-        <input v-model.trim="email" type="email" class="input" />
-      </div>
-
-      <div class="flex flex-col">
-        <label class="label">密碼</label>
-        <input v-model.trim="password" type="password" class="input" />
-      </div>
-
-      <div>
-        <button @click.prevent="login" :disabled="!canLogin" class="btn">
-          登入
-        </button>
-      </div>
-      <span
-        >還沒有帳號嗎？<a @click.prevent="$emit('go_register')" href="#">註冊</a
-        >一個吧</span
-      >
-    </form>
-  </section>
-</template>

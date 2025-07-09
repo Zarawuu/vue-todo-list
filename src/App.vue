@@ -1,20 +1,28 @@
-<script setup></script>
-
 <template>
-  <div>TODO</div>
+  <Todo v-if="show == 'todo'" />
+  <LoginForm
+    v-if="show == 'login'"
+    @go_register="show = 'register'"
+    @login_success="show = 'todo'"
+  />
+  <RegisterForm v-if="show == 'register'" @go_login="show = 'login'" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<script setup>
+import RegisterForm from "./components/users/RegisterForm.vue"
+import LoginForm from "./components/users/LoginForm.vue"
+import Todo from "./components/ui/Todo.vue"
+import { STORAGE_KEY } from "./constants"
+
+import { ref, onMounted } from "vue"
+
+const show = ref("login")
+
+onMounted(() => {
+  const token = localStorage.getItem(STORAGE_KEY)
+
+  if (token) {
+    show.value = "todo"
+  }
+})
+</script>

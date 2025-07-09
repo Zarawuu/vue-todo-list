@@ -16,10 +16,9 @@
           登入
         </button>
       </div>
-      <span
-        >還沒有帳號嗎？<a @click.prevent="$emit('go_register')" href="#">註冊</a
-        >一個吧</span
-      >
+      <span>還沒有帳號嗎？
+        <a class="hover:text-blue-300" @click.prevent="$emit('go_register')" href="#">註冊</a>一個吧
+      </span>
     </form>
   </section>
 </template>

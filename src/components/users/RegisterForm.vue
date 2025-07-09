@@ -19,7 +19,9 @@
       <div>
         <button @click.prevent="register" class="btn">註冊</button>
       </div>
-      <span> 已經有帳號了？<a @click.prevent="goLogin" href="#">登入</a> </span>
+      <span> 已經有帳號了？
+        <a class="hover:text-blue-300" @click.prevent="goLogin" href="#">登入</a> 
+      </span>
     </form>
   </section>
 </template>

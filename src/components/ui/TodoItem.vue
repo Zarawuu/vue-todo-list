@@ -1,7 +1,7 @@
 <template>
   <li class="list-row">
     <div class="flex items-center">
-      <input type="checkbox" class="checkbox checkbox-primary"/>
+      <input v-model="checked" type="checkbox" class="checkbox checkbox-primary" disabled="true"/>
     </div>
     <div v-if="enableEdit" class="flex items-center">
       <input v-model="todo.content" type="text" placeholder="Type here" class="input input-primary mr-2" />
@@ -13,11 +13,11 @@
       <div class="text-lg font-semibold opacity-60">{{ todo.content }}</div>
       <div v-if="todo.completed_at">{{ `Completed at: ${todo.completed_at}` }}</div>
     </div>
-    <button class="btn btn-soft btn-info" @click="editTodo(todo.id)">
+    <button v-if="!(todo.completed_at)" class="btn btn-soft btn-info" @click="editTodo(todo.id)">
       {{ enableEdit ? 'Finish Edit' : 'Edit'}}
     </button>
     <button v-if="!enableEdit" class="btn btn-soft btn-accent" @click="toggleTodo(todo.id)">
-      {{ todo.completed_at ? 'Cancel Done' : 'Done' }}
+      {{ todo.completed_at ? 'Cancel Finish' : 'Finish' }}
     </button>
     <button class="btn btn-soft btn-error" @click=deleteTodo(todo.id)>
       Delete
@@ -26,24 +26,45 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-const enableEdit = ref(false);
+import { ref, onMounted } from 'vue';
+import { useTodoStore } from '@/stores/TodoStore.js'
+import { watch } from 'vue';
 
-defineProps({
+const store = useTodoStore();
+const enableEdit = ref(false);
+const checked = ref(false);
+
+const props = defineProps({
   todo: Object
 })
 
-const emits = defineEmits(['delete-todo', 'toggle-todo', 'edit-todo']);
+onMounted(() => {
+  if ( props.todo.completed_at ) {
+    checked.value = true
+  }
+})
+
+const emits = defineEmits(['edit-todo']);
 
 const deleteTodo = (todoId) => {
-  emits('delete-todo', todoId)
+  store.deleteTodo(todoId)
 }
 
 const toggleTodo = (todoId) => {
-  emits('toggle-todo', todoId)
+  store.toggleTodo(todoId)
+  if ( props.todo.completed_at ) {
+    checked.value = true
+  } else {
+    checked.value = false
+  }
 }
 
 const editTodo = (todoId) => {
-  enableEdit.value = true
+  if ( enableEdit.value === false ) {
+    enableEdit.value = true
+  } else {
+    enableEdit.value = false
+    store.editTodo(todoId, props.todo.content)
+  }
 }
 </script>

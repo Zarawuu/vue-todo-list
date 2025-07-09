@@ -1,6 +1,9 @@
 <template>
   <div class="p-4">
-    <Todo v-if="show == 'todo'" />
+    <Todo 
+      v-if="show == 'todo'" 
+      @go-login="show = 'login'"
+    />
     <LoginForm
       v-if="show == 'login'"
       @go_register="show = 'register'"
